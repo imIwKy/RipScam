@@ -1,2 +1,3 @@
 # RipScam
-RipScam is a discord bot that's going to have features like: AutoMod, URL scans, Custom status, Anime related stuff.
+RipScam is a discord bot that scans URLs and logs them if they're malicious.
+
