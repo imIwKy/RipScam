@@ -10,7 +10,7 @@ bot = commands.Bot(command_prefix=prefix)
 isFromScanChannel = False
 vtClient = vt.Client(cfg.APIKEY)
 scanChannels =  []
-userStats = {}
+userStatuses = {}
 logChannel = 0
 
 #Called when the bot logs in
@@ -92,6 +92,7 @@ async def scan(ctx):
     except AttributeError:
         print("[URLSCAN]Not a Link")
 
+#Sets a custom status for the user
 @bot.command()
 async def status(ctx, *arg):
     if not arg:
@@ -101,18 +102,19 @@ async def status(ctx, *arg):
         for x in arg:
             cUStat += x + " "
         await ctx.send("Setting your status to: " + cUStat)
-        userStats.update({str(ctx.author.id) : cUStat})
-    print(userStats)
+        userStatuses.update({str(ctx.author.id) : cUStat})
+    if userStatuses:
+        print(userStatuses)
 
+#Deletes the user's status if they got one
 @bot.command()
 async def delstatus(ctx):
-    for x in userStats.keys():
-        if str(ctx.author.id) == x:
-            await ctx.send("Deleting your status")
-            del userStats[str(ctx.author.id)]
-        else:
-            await ctx.send("You dont have a status set")
-    print(userStats)
-
+    if str(ctx.author.id) in userStatuses.keys():
+        await ctx.send("Deleting your status")
+        del userStatuses[str(ctx.author.id)]
+    else:
+        await ctx.send("You dont have a status set")
+    if userStatuses:
+        print(userStatuses)
 
 bot.run(cfg.TOKEN)
