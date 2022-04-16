@@ -1,3 +1,4 @@
+from fileinput import close
 import discord
 from discord.ext import commands
 import config as cfg
@@ -114,6 +115,7 @@ async def delstatus(ctx):
     if userStatuses:
         print(userStatuses)
 
+#Checks if a mentioned person got a status set.
 async def checkforstatus(ctx):
     mentionedId = str(ctx.content)
     removableChars = "<>@"
@@ -121,5 +123,16 @@ async def checkforstatus(ctx):
         mentionedId=mentionedId.replace(c,"")
     if mentionedId in userStatuses.keys() and str(ctx.author.id) != mentionedId:
         await ctx.channel.send("This user is currently : " + userStatuses.get(mentionedId))
+
+#Read the command list from a txt file.
+bot.remove_command('help')
+@bot.command()
+async def help(ctx):
+    cmdFile = open("commands.txt","r")
+    msg = discord.Embed(title="List of commands", color=0xC906E3)
+    for x in cmdFile:
+        msg.add_field(name="*=-=-=-=-=*", value="- "+x,inline=False)
+    await ctx.channel.send(embed = msg)
+    cmdFile.close()
 
 bot.run(cfg.TOKEN)

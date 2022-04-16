@@ -1,0 +1,6 @@
+log
+setup
+prefix
+status
+delstatus
+channels
